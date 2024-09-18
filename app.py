@@ -28,7 +28,8 @@ def extract_table_data(image):
         if 'Gold Wt' in line or 'Gold' in line:
             gold_wt = line.split()[-4] if len(line.split()) > 3 else None
 
-    print(extracted_text,"12345678")
+    st.write(lines)
+
 
     return total, gold_wt, extracted_text
 
