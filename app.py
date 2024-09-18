@@ -45,6 +45,7 @@ def main():
         
 
         if total and gold_wt:
+            print(extracted_text,"12345678")
             st.write(f"**Total**     :   {total} PCS")
             st.write(f"**Gold Weight**   :   {gold_wt} g")
 
