@@ -4,7 +4,7 @@ import pytesseract
 from PIL import Image
 import numpy as np
 
-pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"  
 
 def preprocess_image(image):
 
@@ -52,7 +52,12 @@ def main():
 
 
         total=float(total)
-        gold_wt=float(gold_wt)
+        try:
+            gold_wt = float(gold_wt)
+        except ValueError as e:
+            print(f"ValueError: {e}")
+        except TypeError as e:
+            print(f"TypeError: {e}")
 
 
         st.write("**GRADE(pcs)**")
