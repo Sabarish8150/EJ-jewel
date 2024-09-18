@@ -6,19 +6,6 @@ import numpy as np
 
 # pytesseract.pytesseract.tesseract_cmd = r'/usr/local/bin/tesseract' 
 
-import subprocess
-
-def install_package(package):
-
-    subprocess.check_call(['pip', 'install', package])
-
-# Example usage
-install_package('opencv-python')
-install_package('pytesseract')
-install_package('streamlit')
-# install_package('opencv-python')
-
-
 def preprocess_image(image):
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
