@@ -4,7 +4,20 @@ import pytesseract
 from PIL import Image
 import numpy as np
 
-# pytesseract.pytesseract.tesseract_cmd = r'/usr/local/bin/tesseract'  
+# pytesseract.pytesseract.tesseract_cmd = r'/usr/local/bin/tesseract' 
+
+import subprocess
+
+def install_package(package):
+
+    subprocess.check_call(['pip', 'install', package])
+
+# Example usage
+install_package('opencv-python')
+install_package('pytesseract')
+install_package('streamlit')
+# install_package('opencv-python')
+
 
 def preprocess_image(image):
 
@@ -37,7 +50,7 @@ def main():
 
     uploaded_image = st.file_uploader("Upload an image---->>>>", type=["png", "jpg", "jpeg"])
 
-    if uploaded_image is not None:
+    if uploaded_image is not None:  
         image = np.array(Image.open(uploaded_image))
 
         st.image(image, caption="Uploaded Image", use_column_width=True)
