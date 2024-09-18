@@ -40,7 +40,7 @@ def main():
         st.image(image, caption="Uploaded Image", use_column_width=True)
 
         total, gold_wt, text = extract_table_data(image)
-        print(text)
+        print(text,"12345678")
 
         if total and gold_wt:
             st.write(f"**Total**     :   {total} PCS")
