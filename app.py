@@ -43,7 +43,7 @@ def main():
 
         total, gold_wt, extracted_text = extract_table_data(image)
         
-        st.write(extracted_text,"12345678")
+        st.write(extracted_text)
         if total and gold_wt:
             
             st.write(f"**Total**     :   {total} PCS")
