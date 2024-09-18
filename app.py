@@ -43,9 +43,9 @@ def main():
 
         total, gold_wt, extracted_text = extract_table_data(image)
         
-
+        st.write(extracted_text,"12345678")
         if total and gold_wt:
-            print(extracted_text,"12345678")
+            
             st.write(f"**Total**     :   {total} PCS")
             st.write(f"**Gold Weight**   :   {gold_wt} g")
 
@@ -73,6 +73,7 @@ def main():
                 st.write("Error: Unable to convert 'Total' or 'Gold Weight' to a number.")
         else:
             st.write("Could not find 'Total' or 'Gold Weight' in the image.")
+
 
 if __name__ == "__main__":
     main()
