@@ -1,6 +1,5 @@
-streamlit
-cv2
-opencv-python-headless
-numpy
-pandas
-pytesseract
+streamlit==1.26.0
+opencv-python-headless==4.5.5.64  # Use headless version to avoid GUI dependencies
+numpy==1.21.6
+pandas==1.3.5
+pytesseract==0.3.10
