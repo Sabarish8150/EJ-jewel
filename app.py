@@ -28,6 +28,8 @@ def extract_table_data(image):
         if 'Gold Wt' in line or 'Gold' in line:
             gold_wt = line.split()[-4] if len(line.split()) > 3 else None
 
+    print(extracted_text,"12345678")
+
     return total, gold_wt, extracted_text
 
 def main():
@@ -39,8 +41,8 @@ def main():
         image = np.array(Image.open(uploaded_image))
         st.image(image, caption="Uploaded Image", use_column_width=True)
 
-        total, gold_wt, text = extract_table_data(image)
-        print(text,"12345678")
+        total, gold_wt, extracted_text = extract_table_data(image)
+        
 
         if total and gold_wt:
             st.write(f"**Total**     :   {total} PCS")
