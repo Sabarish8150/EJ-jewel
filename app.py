@@ -4,8 +4,6 @@ import pytesseract
 from PIL import Image
 import numpy as np
 
-# pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract" 
-
 def preprocess_image(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     _, thresh = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY_INV)
@@ -38,7 +36,7 @@ def main():
 
     uploaded_image = st.file_uploader("Upload an image---->>>>", type=["png", "jpg", "jpeg"])
 
-    if uploaded_image is not None:  
+    if uploaded_image is not None:
         image = np.array(Image.open(uploaded_image))
         st.image(image, caption="Uploaded Image", use_column_width=True)
 
@@ -47,8 +45,8 @@ def main():
         st.write(extracted_text)
         if total and gold_wt:
             
-            st.write(f"**Total**     :   {total} PCS")
-            st.write(f"**Gold Weight**   :   {gold_wt} g")
+            st.write(f"**Total**     :   {total} PCS")
+            st.write(f"**Gold Weight**   :   {gold_wt} g")
 
             try:
                 total = float(total)
