@@ -4,7 +4,7 @@ import pytesseract
 from PIL import Image
 import numpy as np
 
-pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract" 
+# pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract" 
 
 def preprocess_image(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
