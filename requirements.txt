@@ -1,5 +1,6 @@
-streamlit
+streamlit 
 opencv-python
 numpy
 pandas
 pytesseract
+cv == 1.0.0
