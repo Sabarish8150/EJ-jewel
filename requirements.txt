@@ -3,3 +3,4 @@ opencv-python-headless  # Use headless version to avoid GUI dependencies
 numpy
 pandas
 pytesseract==5.4
+--upgrade pip
