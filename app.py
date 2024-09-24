@@ -21,13 +21,25 @@ def extract_table_data(image,m_on):
     total, gold_wt = None, None
     lines = extracted_text.split('\n')
     for line in lines:
+        line_split = line.split()
+        a=-2
         if 'Total' in line or 'TOTAL' in line:
             total = line.split()[-2] if len(line.split()) > 1 else None
         if 'Gold Wt' in line or 'Gold' in line:
             gold_wt = line.split()[-4] if len(line.split()) > 3 else None
-        if m_on:
-            if 'Total' in line or 'TOTAL' in line:
-                S_area = line.split()[-4] if len(line.split()) > 1 else None
+        # if m_on:
+        if 'Total' in line or 'TOTAL' in line:
+            if len(line_split) >= 4:  # Ensure there are at least 4 elements
+                S_area = line_split[-4]
+                if not m_on:
+                    st.write("**It's a mirror image**")
+            else:
+                S_area=0
+                if m_on:
+                    st.write("**It's not a mirror image**")
+
+            
+                
 
     # st.write(lines)
 
@@ -56,6 +68,7 @@ def main():
             gold_wt = float(gold_wt)
             if m_on:
                 S_area=float(S_area)
+            
             total_sum=0
 
             if m_on:
@@ -77,41 +90,41 @@ def main():
                 if 1 <= total <= 20:
                     total_sum+=0.2 ##0
                     count+=1
-                    # st.write("0.2 G")
+                    #st.write("0.2 G")
                 elif 20 < total <= 40:
                     total_sum+=0.35
                     count+=1
-            #         st.write("0.35 G")
+                    #st.write("0.35 G")
                 elif 40 < total <= 60:
                     total_sum+=0.45
                     count+=1
-            #         st.write("0.45 G")
+                    #st.write("0.45 G")
                 elif 60 < total <= 150:
                     total_sum+=0.55
                     count+=1
-            #         st.write("0.55 G")
+                    #st.write("0.55 G")
 
-            #     st.write("**GRADE (gold weight)**")
+                #st.write("**GRADE (gold weight)**")
                 if  gold_wt <= 3.0:
                     total_sum+=0.4
                     count+=1
-            #         st.write("0.4 G")
+                    #st.write("0.4 G")
                 elif 3.0 < gold_wt <= 5.0:
                     total_sum+=0.5
                     count+=1
-            #         st.write("0.5 G")
+                    #st.write("0.5 G")
                 elif 5.0 < gold_wt <= 7.0:
                     total_sum+=0.65
                     count+=1
-            #         st.write("0.65 G")
+                    #st.write("0.65 G")
 
 
-            #     st.write("**GRADE (Surface area)**")
+                #st.write("**GRADE (Surface area)**")
                 if m_on:
                     if  S_area <= 200:
                         total_sum+=0.25
                         count+=1
-                    #st.write("0.25 G")
+                        #st.write("0.25 G")
                     elif 200 < S_area <= 400:
                         total_sum+=0.35
                         count+=1
@@ -119,11 +132,11 @@ def main():
                     elif 400 < S_area <= 1000:
                         total_sum+=0.45
                         count+=1
-                        #         st.write("0.45 G")
+                        #st.write("0.45 G")
                     elif 1000 < S_area <= 2000:
                         total_sum+=0.55
                         count+=1
-                        #         st.write("0.55 G")
+                        #st.write("0.55 G")
 
                 st.write(f"**Grade** : \n\n {round((total_sum/count),2)}")
 
