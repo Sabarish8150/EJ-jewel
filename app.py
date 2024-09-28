@@ -89,11 +89,12 @@ def main():
             try:
                 
 
-                count=0
-                total_sum,count=total_peices(total,count)
-                total_sum,count=gold_Weight(gold_wt,count)
+                count=2
+                total_sum+=total_pieces(total)
+                total_sum+=gold_weight(gold_wt)
                 if m_on:
-                    total_sum,count=Surface_area(S_area,count)
+                    total_sum+=Sur(S_area)
+                    count+=1
 
 
                 st.write(f"**Grade** : \n\n {round((total_sum/count),2)}")
