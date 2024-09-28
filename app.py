@@ -3,6 +3,7 @@ import cv2
 import pytesseract
 from PIL import Image
 import numpy as np
+from calculation import *
 
 def preprocess_image(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -17,9 +18,11 @@ def extract_table_data(image,m_on):
 
     # Clean up the text
     extracted_text = extracted_text.replace("|", " ").strip()
+    extracted_text = extracted_text.replace(";", " ").strip()
     
     total, gold_wt = None, None
     lines = extracted_text.split('\n')
+    # st.write(lines)
     for line in lines:
         line_split = line.split()
         a=-2
@@ -37,6 +40,8 @@ def extract_table_data(image,m_on):
                 S_area=0
                 if m_on:
                     st.write("**It's not a mirror image**")
+
+        
 
             
                 
@@ -74,7 +79,6 @@ def main():
             if m_on:
                 total/=2
                 gold_wt/=2
-            
             st.write(f"**Total**  :  {int(total)} PCS")
             st.write(f"**Gold Weight**  :  {gold_wt} g")
 
@@ -84,59 +88,13 @@ def main():
     
             try:
                 
-            #     st.write("**GRADE (pcs)**")
 
                 count=0
-                if 1 <= total <= 20:
-                    total_sum+=0.2 ##0
-                    count+=1
-                    #st.write("0.2 G")
-                elif 20 < total <= 40:
-                    total_sum+=0.35
-                    count+=1
-                    #st.write("0.35 G")
-                elif 40 < total <= 60:
-                    total_sum+=0.45
-                    count+=1
-                    #st.write("0.45 G")
-                elif 60 < total <= 150:
-                    total_sum+=0.55
-                    count+=1
-                    #st.write("0.55 G")
-
-                #st.write("**GRADE (gold weight)**")
-                if  gold_wt <= 3.0:
-                    total_sum+=0.4
-                    count+=1
-                    #st.write("0.4 G")
-                elif 3.0 < gold_wt <= 5.0:
-                    total_sum+=0.5
-                    count+=1
-                    #st.write("0.5 G")
-                elif 5.0 < gold_wt <= 7.0:
-                    total_sum+=0.65
-                    count+=1
-                    #st.write("0.65 G")
-
-
-                #st.write("**GRADE (Surface area)**")
+                total_sum,count=total_peices(total,count)
+                total_sum,count=gold_Weight(gold_wt,count)
                 if m_on:
-                    if  S_area <= 200:
-                        total_sum+=0.25
-                        count+=1
-                        #st.write("0.25 G")
-                    elif 200 < S_area <= 400:
-                        total_sum+=0.35
-                        count+=1
-                        #st.write("0.35 G")
-                    elif 400 < S_area <= 1000:
-                        total_sum+=0.45
-                        count+=1
-                        #st.write("0.45 G")
-                    elif 1000 < S_area <= 2000:
-                        total_sum+=0.55
-                        count+=1
-                        #st.write("0.55 G")
+                    total_sum,count=Surface_area(S_area,count)
+
 
                 st.write(f"**Grade** : \n\n {round((total_sum/count),2)}")
 
