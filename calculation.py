@@ -13,6 +13,11 @@ csv_data = list(csv.reader(data.splitlines()))
 df = pd.DataFrame(csv_data)
 df=df.drop(index=1)
 df = df.drop(index=0)
+# Extract non-null product names from column 13 (12th index)
+products = df.iloc[:, 12].dropna().tolist()
+
+# Optionally, if the column may contain empty strings that need to be excluded:
+products = [x for x in products if x.strip() != '']
 
 
 def is_numeric(value):
@@ -27,70 +32,83 @@ def total_pieces(total):
     global df
     total_sum = 0
     for idx, row in df.iterrows():
-        # Access the values by column index
-        from_val = row.iloc[4]  # 'From' is in the 4th column
-        to_val = row.iloc[5]    # 'To' is in the 5th column
 
-        # Check if 'From' and 'To' are numeric
+        from_val = row.iloc[4]  
+        to_val = row.iloc[5]  
+
         if is_numeric(from_val) and is_numeric(to_val):
             from_val = int(from_val)
             to_val = int(to_val)
-            grade_range = float(row.iloc[6])  # 'Grade Range' is in the 6th column
+            grade_range = float(row.iloc[6])  
 
-            if from_val <= total <= to_val:  # Check if total falls in the range
-                total_sum += grade_range  # Add the corresponding grade
-                st.write(f"{grade_range} G")
-                break  # Exit after first match
+            if from_val <= total <= to_val: 
+                total_sum += grade_range  
+                # st.write(f"{grade_range} G")
+                break 
         else:
             st.write("Out of range (non-numeric 'From' or 'To')")
 
     return total_sum
 
-# Function to calculate gold weight
+
 def gold_weight(gold_wt):
     global df
     total_sum = 0
     for idx, row in df.iterrows():
-        # Access the values by column index
-        gold_weight_from = row.iloc[0]  # 'Gold Weight From' is in the 0th column
-        gold_weight_to = row.iloc[1]    # 'Gold Weight To' is in the 1st column
 
-        # Check if 'Gold Weight From' and 'Gold Weight To' are numeric
+        gold_weight_from = row.iloc[0]  
+        gold_weight_to = row.iloc[1]   
+
+    
         if is_numeric(gold_weight_from) and is_numeric(gold_weight_to):
             gold_weight_from = float(gold_weight_from)
             gold_weight_to = float(gold_weight_to)
-            grade_range = float(row.iloc[2])  # 'Grade Range' is in the 2nd column
-
-            if gold_weight_from <= gold_wt <= gold_weight_to:  # Check if gold_wt falls in the range
-                total_sum += grade_range  # Add the corresponding grade
-                st.write(f"{grade_range} G")
-                break  # Exit after first match
+            grade_range = float(row.iloc[2])  
+            if gold_weight_from <= gold_wt <= gold_weight_to: 
+                total_sum += grade_range  
+             
+                break  
         else:
             st.write("Out of range (non-numeric gold weight)")
 
     return total_sum
 
-def Sur(gold_wt):
+def Sur(S_area):
     global df
     total_sum = 0
     for idx, row in df.iterrows():
-        # Access the values by column index
-        gold_weight_from = row.iloc[8]  # 'Gold Weight From' is in the 8th column
-        gold_weight_to = row.iloc[9]    # 'Gold Weight To' is in the 9th column
 
-        # Check if values are numeric before proceeding
+        gold_weight_from = row.iloc[8] 
+        gold_weight_to = row.iloc[9]   
+
+    
         if not is_numeric(gold_weight_from) or not is_numeric(gold_weight_to):
             st.write("Out of range (gold weight)")
         else:
             gold_weight_from = float(gold_weight_from)
             gold_weight_to = float(gold_weight_to)
-            grade_range = float(row.iloc[10])  # 'Grade Range' is in the 10th column
+            grade_range = float(row.iloc[10])  
             
-            if gold_weight_from <= gold_wt <= gold_weight_to:  # Check if gold_wt falls in the range
-                total_sum += grade_range  # Add the corresponding grade
-                st.write(f"{grade_range} G")
-                break  # Exit after first match
+            if gold_weight_from <= S_area <= gold_weight_to:  
+                total_sum += grade_range  
+                # st.write(f"{grade_range} G")
+                break 
 
     return total_sum
+
+def jewel_type(total,gold_wt,j_type,mode):
+
+    for idx, row in df.iterrows():
+        # st.write(row.iloc[13:14])
+        # Check if the jewelry type matches the current row
+        if row.iloc[12] == j_type:  
+            if mode == "Array":
+                # st.write(total)
+                
+                return int(total) * int(row.iloc[13])/100 , float(gold_wt)*int(row.iloc[13])/100
+            elif mode == "Mirror":
+                # Multiply total and gold weight for Mirror mode
+                return int(total) * int(row.iloc[14]) /100 , float(gold_wt)*int(row.iloc[14])/100
+    return 0,0
 
 
