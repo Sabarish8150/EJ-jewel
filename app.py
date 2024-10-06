@@ -68,7 +68,7 @@ def extract_table_data(image):
     total, gold_wt = None, None
     lines = extracted_text.split('\n')
     S_area=0
-    # st.write(lines)
+    st.write(lines)
     for line in lines:
         line_split = line.split()
 
