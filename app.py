@@ -112,7 +112,7 @@ def main():
 
         # Extract data and display in right column
         with col2:
-            st.markdown(f"<h2 class='header-text'>Grade for Uploaded {jewelry_type} in {mode} Type </h2>", unsafe_allow_html=True)
+            st.markdown(f"<h2 class='header-text'>Grade for Uploaded {jewelry_type} image in {mode} Type </h2>", unsafe_allow_html=True)
             
             # Extract data from the image
             total, gold_wt, extracted_text, S_area = extract_table_data(image)
