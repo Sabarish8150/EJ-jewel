@@ -68,7 +68,7 @@ def extract_table_data(image):
     total, gold_wt = None, None
     lines = extracted_text.split('\n')
     S_area=0
-    st.write(lines)
+    # st.write(lines)   
     for line in lines:
         line_split = line.split()
 
@@ -79,29 +79,17 @@ def extract_table_data(image):
             gold_wt = line.split()[2] 
         if not isdigit(gold_wt):
             gold_wt=0
-        # if m_on:
+
         if 'Surface' in line or 'surface' in line:
             S_area = line_split[2]
-            #     if not m_on:
-            #         st.write("**It's a mirror image**")
-            # else:
-            #     S_area=0
-            #     if m_on:
-            #         st.write("**It's not a mirror image**")
 
-        
-
-            
-                
-
-    # st.write(lines)
 
 
     return total, gold_wt, extracted_text, S_area
 
 def main():
     # Main title with styled header
-    st.markdown("<h1 class='main-title'>Jewelry Data Extraction</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='main-title'>Grade Calculation </h1>", unsafe_allow_html=True)
 
     # Sidebar for file upload and toggle
     st.sidebar.markdown("<h2 class='header-text'>Upload and Options</h2>", unsafe_allow_html=True)
@@ -124,7 +112,7 @@ def main():
 
         # Extract data and display in right column
         with col2:
-            st.markdown("<h2 class='header-text'>Extracted Data</h2>", unsafe_allow_html=True)
+            st.markdown(f"<h2 class='header-text'>Grade for Uploaded {jewelry_type} in {mode} Type </h2>", unsafe_allow_html=True)
             
             # Extract data from the image
             total, gold_wt, extracted_text, S_area = extract_table_data(image)
@@ -162,6 +150,8 @@ def main():
                         total_sum += gold_weight(gold_wt)
                         total_sum += Sur(S_area)
                         count = 3
+
+                    # st.write(total_sum )
 
                     st.markdown(f"<div class='grade-output'>Grade: {round((total_sum / count), 1)}</div>", unsafe_allow_html=True)
 
