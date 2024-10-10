@@ -129,13 +129,13 @@ def main():
                 
                 total,gold_wt = jewel_type(total,gold_wt,jewelry_type, mode) 
 
-                st.markdown(f"""
-                    <div class='output-card'>
-                        <p><strong>Total:</strong> {total} PCS</p>
-                        <p><strong>Gold Weight:</strong> {gold_wt:.2f} g</p>
-                        {f"<p><strong>Surface Area:</strong> {S_area} mm³</p>" if mode == "Mirror" else ""}
-                    </div>
-                """, unsafe_allow_html=True)
+                # st.markdown(f"""
+                #     <div class='output-card'>
+                #         <p><strong>Total:</strong> {total} PCS</p>
+                #         <p><strong>Gold Weight:</strong> {gold_wt:.2f} g</p>
+                #         {f"<p><strong>Surface Area:</strong> {S_area} mm³</p>" if mode == "Mirror" else ""}
+                #     </div>
+                # """, unsafe_allow_html=True)
         
                 try:
                     count = 1  
