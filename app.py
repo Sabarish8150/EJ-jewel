@@ -55,37 +55,38 @@ def preprocess_image(image):
     return thresh
 
 def extract_table_data(image):
-    h, w, _ = image.shape
-    cropped_image = image[int(h * 0.75):h, int(w * 0.3):w]
-    preprocessed_image = preprocess_image(cropped_image)
-    extracted_text = pytesseract.image_to_string(preprocessed_image)
+    # Convert the uploaded image to a NumPy array if it's not already one
+    if isinstance(image, np.ndarray):
+        img = image
+    else:
+        img = np.array(Image.open(image))
+
+    # Process the image as before
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    extracted_text = pytesseract.image_to_string(gray)
 
     # Clean up the text
     extracted_text = extracted_text.replace("|", " ").strip()
     extracted_text = extracted_text.replace(";", " ").strip()
     extracted_text = extracted_text.replace("[", " ").strip()
     extracted_text = extracted_text.replace("]", " ").strip()
+
     total, gold_wt = None, None
     lines = extracted_text.split('\n')
-    S_area=0
-    # st.write(lines)   
+    S_area = 0
     for line in lines:
         line_split = line.split()
-
         if 'Total' in line or 'TOTAL' in line:
             total = line.split()[-2] 
         if 'Gold Wt' in line or 'Gold' in line:
-            # st.write(len(line))
             gold_wt = line.split()[2] 
         if not isdigit(gold_wt):
-            gold_wt=0
-
+            gold_wt = 0
         if 'Surface' in line or 'surface' in line:
             S_area = line_split[2]
 
-
-
     return total, gold_wt, extracted_text, S_area
+
 
 def main():
     # Main title with styled header
