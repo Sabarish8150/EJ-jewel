@@ -115,8 +115,10 @@ def main():
 
         # Extract data and display in right column
         with col2:
-            st.markdown(f"<h2 class='header-text'>Grade for Uploaded {jewelry_type} image in {mode} Type </h2>", unsafe_allow_html=True)
-            
+            if mode!="None":
+                st.markdown(f"<h2 class='header-text'>Grade for Uploaded {jewelry_type} image in {mode} Type </h2>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<h2 class='header-text'>Grade for Uploaded {jewelry_type} image </h2>", unsafe_allow_html=True)
             # Extract data from the image
             total, gold_wt, extracted_text, S_area = extract_table_data(image)
 
@@ -131,13 +133,13 @@ def main():
                 
                 total,gold_wt = jewel_type(total,gold_wt,jewelry_type, mode) 
 
-                st.markdown(f"""
-                    <div class='output-card'>
-                        <p><strong>Total:</strong> {total} PCS</p>
-                        <p><strong>Gold Weight:</strong> {gold_wt:.2f} g</p>
-                        {f"<p><strong>Surface Area:</strong> {S_area} mm³</p>"} 
-                    </div>
-                """, unsafe_allow_html=True)#if mode == "Mirror" else ""
+                # st.markdown(f"""
+                #     <div class='output-card'>
+                #         <p><strong>Total:</strong> {total} PCS</p>
+                #         <p><strong>Gold Weight:</strong> {gold_wt:.2f} g</p>
+                #         {f"<p><strong>Surface Area:</strong> {S_area} mm³</p>"} 
+                #     </div>
+                # """, unsafe_allow_html=True)#if mode == "Mirror" else ""
         
                 try:
                     count = 1  
