@@ -97,7 +97,9 @@ def main():
     uploaded_image = st.sidebar.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
 
     # Mode selection: Array or Mirror
-    mode = st.sidebar.radio("Select Type", options=["Array", "Mirror"], index=0)
+    mode = st.sidebar.selectbox("Select Type", options=["None","Array", "Mirror"])
+
+    # st.write(mode)
 
     # Jewelry type selection from the list
     jewelry_type = st.sidebar.selectbox("Select Jewelry Type", [x for x in products])
@@ -123,19 +125,19 @@ def main():
                 gold_wt = float(gold_wt)
                 
                 # Only process surface area if in 'Mirror' mode
-                if mode == "Mirror":
-                    S_area = float(S_area) if S_area else 0
+                # if mode == "Mirror":
+                S_area = float(S_area) if S_area else 0
                 # st.write(total,gold_wt,S_area,jewelry_type,mode)
                 
                 total,gold_wt = jewel_type(total,gold_wt,jewelry_type, mode) 
 
-                # st.markdown(f"""
-                #     <div class='output-card'>
-                #         <p><strong>Total:</strong> {total} PCS</p>
-                #         <p><strong>Gold Weight:</strong> {gold_wt:.2f} g</p>
-                #         {f"<p><strong>Surface Area:</strong> {S_area} mm³</p>" if mode == "Mirror" else ""}
-                #     </div>
-                # """, unsafe_allow_html=True)
+                st.markdown(f"""
+                    <div class='output-card'>
+                        <p><strong>Total:</strong> {total} PCS</p>
+                        <p><strong>Gold Weight:</strong> {gold_wt:.2f} g</p>
+                        {f"<p><strong>Surface Area:</strong> {S_area} mm³</p>"} 
+                    </div>
+                """, unsafe_allow_html=True)#if mode == "Mirror" else ""
         
                 try:
                     count = 1  
@@ -145,12 +147,18 @@ def main():
                         total_sum += gold_weight(gold_wt)
                         count = 2
                     
-                    if mode == "Mirror":
+                    elif mode == "Mirror":
                         total_sum=0
                         total_sum += total_pieces(total)
                         total_sum += gold_weight(gold_wt)
                         total_sum += Sur(S_area)
                         count = 3
+
+                    else:
+                        total_sum += total_pieces(total)
+                        total_sum += gold_weight(gold_wt)
+                        total_sum += Sur(S_area)
+                        count=3
 
                     # st.write(total_sum )
 

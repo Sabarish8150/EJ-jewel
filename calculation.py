@@ -109,6 +109,8 @@ def jewel_type(total,gold_wt,j_type,mode):
             elif mode == "Mirror":
                 # Multiply total and gold weight for Mirror mode
                 return int(total) * int(row.iloc[14]) /100 , float(gold_wt)*int(row.iloc[14])/100
+            else:
+                return int(total),float(gold_wt)
     return 0,0
 
 
