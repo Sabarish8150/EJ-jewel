@@ -78,7 +78,7 @@ def extract_table_data(image):
         line_split = line.split()
         if 'Total' in line or 'TOTAL' in line:
             total = line.split()[-2] 
-        if 'Gold Wt' in line or 'Gold' in line:
+        if 'Gold Wt' in line or 'Gold' in line or 'GOLD ' in line or 'GOLD WT' in line:
             gold_wt = line.split()[2] 
         if not isdigit(gold_wt):
             gold_wt = 0
