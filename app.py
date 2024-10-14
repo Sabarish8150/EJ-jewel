@@ -195,7 +195,7 @@ def main():
             else:
                 st.write("Could not find 'Total' or 'Gold Weight' in the image.")
     else:
-        st.write("Please upload an image to begin.")
+        st.write("Please upload an image to beginlhkikljoi.")
 
 if __name__ == "__main__":
     main()
