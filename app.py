@@ -3,6 +3,7 @@ import cv2
 import pytesseract
 from PIL import Image
 import numpy as np
+import re
 # from calculation import *
 from calculation import *
 
@@ -75,15 +76,37 @@ def extract_table_data(image):
     lines = extracted_text.split('\n')
     S_area = 0
     for line in lines:
-        line_split = line.split()
-        if 'Total' in line or 'TOTAL' in line:
-            total = line.split()[-2] 
-        if 'Gold Wt' in line or 'Gold' in line or 'GOLD ' in line or 'GOLD WT' in line:
-            gold_wt = line.split()[2] 
+        st.write(line)
+        try:
+            # Check for 'Total' in the line and extract its value
+            if 'Total' in line or 'TOTAL' in line:
+                total = 0
+                parts = line.split()
+                # If length is greater than 1, check if a value follows
+                if len(parts) >= 2 and re.match(r'^\d+(\.\d+)?$', parts[-1]):
+                    total = float(parts[-1])
+                if len(line.split()) >= 2:
+                   total = line.split()[-3]
+                else:
+                    st.write("It has no total value")
+
+
+            # Check for 'Gold Wt' and extract its numeric value
+            if 'Gold Wt' in line or 'Gold' in line or 'GOLD ' in line or 'GOLD WT' in line:
+                gold_wt = 0
+                match = re.search(r'(\d+(\.\d+)?)', line)  # Find numeric part using regex
+                if match:
+                    gold_wt = float(match.group(1))
+                else:
+                    st.write("It has no gold weight value")
+                    
+        except (IndexError, ValueError) as e:
+            print(f"Error extracting data: {e}")
+
         if not isdigit(gold_wt):
             gold_wt = 0
         if 'Surface' in line or 'surface' in line:
-            S_area = line_split[2]
+            S_area = line.split()[2]
 
     return total, gold_wt, extracted_text, S_area
 
@@ -122,7 +145,7 @@ def main():
             # Extract data from the image
             total, gold_wt, extracted_text, S_area = extract_table_data(image)
 
-            if total and gold_wt:
+            if total or gold_wt:
                 total = int(total)
                 gold_wt = float(gold_wt)
                 
@@ -133,13 +156,13 @@ def main():
                 
                 total,gold_wt = jewel_type(total,gold_wt,jewelry_type, mode) 
 
-                # st.markdown(f"""
-                #     <div class='output-card'>
-                #         <p><strong>Total:</strong> {total} PCS</p>
-                #         <p><strong>Gold Weight:</strong> {gold_wt:.2f} g</p>
-                #         {f"<p><strong>Surface Area:</strong> {S_area} mm³</p>"} 
-                #     </div>
-                # """, unsafe_allow_html=True)#if mode == "Mirror" else ""
+                st.markdown(f"""
+                    <div class='output-card'>
+                        <p><strong>Total:</strong> {total} PCS</p>
+                        <p><strong>Gold Weight:</strong> {gold_wt:.2f} g</p>
+                        {f"<p><strong>Surface Area:</strong> {S_area} mm³</p>"} 
+                    </div>
+                """, unsafe_allow_html=True)#if mode == "Mirror" else ""
         
                 try:
                     count = 1  
@@ -150,7 +173,6 @@ def main():
                         count = 2
                     
                     elif mode == "Mirror":
-                        total_sum=0
                         total_sum += total_pieces(total)
                         total_sum += gold_weight(gold_wt)
                         total_sum += Sur(S_area)
@@ -161,6 +183,11 @@ def main():
                         total_sum += gold_weight(gold_wt)
                         total_sum += Sur(S_area)
                         count=3
+
+                    if total==0:
+                        count-=1
+                    if gold_wt==0:
+                        count-=1
 
                     # st.write(total_sum )
 
