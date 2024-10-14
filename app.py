@@ -77,36 +77,31 @@ def extract_table_data(image):
     S_area = 0
     for line in lines:
         # st.write(line)
-        try:
-            # Check for 'Total' in the line and extract its value
-            if 'Total' in line or 'TOTAL' in line:
-                total = 0
-                parts = line.split()
-                # If length is greater than 1, check if a value follows
-                if len(parts) >= 2 and re.match(r'^\d+(\.\d+)?$', parts[-1]):
-                    total = float(parts[-1])
-                if len(line.split()) >= 2:
-                   total = line.split()[-3]
-                else:
-                    st.write("It has no total value")
+        # try:
+            # Check for 'TOTAL' in the line and extract its value
+        if 'TOTAL' in line.upper():
+            parts = line.split()
+            total=0
+                # If the next word or value exists after 'TOTAL', assign it as the total
+            if len(parts) > 1:
+                total = parts[1]
 
-
-            # Check for 'Gold Wt' and extract its numeric value
-            if 'Gold Wt' in line or 'Gold' in line or 'GOLD ' in line or 'GOLD WT' in line:
-                gold_wt = 0
-                match = re.search(r'(\d+(\.\d+)?)', line)  # Find numeric part using regex
-                if match:
-                    gold_wt = float(match.group(1))
-                else:
-                    st.write("It has no gold weight value")
-                    
-        except (IndexError, ValueError) as e:
-            print(f"Error extracting data: {e}")
+            # Check for 'GOLD WT' and extract its numeric value
+        if 'GOLD WT' in line.upper():
+            gold_wt=0
+                # Find the numeric part using regex
+            match = re.search(r'(\d+(\.\d+)?)', line)
+            if match:
+                gold_wt = match.group(1)
+                
 
         if not isdigit(gold_wt):
             gold_wt = 0
-        if 'Surface' in line or 'surface' in line:
+        if 'SURFACE AREA' in line.upper() or 'SURFACE' in line.upper() :
             S_area = line.split()[2]
+        # except (IndexError, ValueError) as e:
+        #     st.write(f"Error extracting data: {e}")
+
 
     return total, gold_wt, extracted_text, S_area
 
