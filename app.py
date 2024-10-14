@@ -79,16 +79,18 @@ def extract_table_data(image):
         # st.write(line)
         # try:
             # Check for 'TOTAL' in the line and extract its value
+        total=0
         if 'TOTAL' in line.upper():
             parts = line.split()
-            total=0
                 # If the next word or value exists after 'TOTAL', assign it as the total
             if len(parts) > 1:
                 total = parts[1]
+        
 
             # Check for 'GOLD WT' and extract its numeric value
+        gold_wt=0
         if 'GOLD WT' in line.upper():
-            gold_wt=0
+            
                 # Find the numeric part using regex
             match = re.search(r'(\d+(\.\d+)?)', line)
             if match:
