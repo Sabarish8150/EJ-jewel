@@ -76,7 +76,7 @@ def extract_table_data(image):
     lines = extracted_text.split('\n')
     S_area = 0
     for line in lines:
-        st.write(line)
+        # st.write(line)
         try:
             # Check for 'Total' in the line and extract its value
             if 'Total' in line or 'TOTAL' in line:
@@ -156,13 +156,13 @@ def main():
                 
                 total,gold_wt = jewel_type(total,gold_wt,jewelry_type, mode) 
 
-                st.markdown(f"""
-                    <div class='output-card'>
-                        <p><strong>Total:</strong> {total} PCS</p>
-                        <p><strong>Gold Weight:</strong> {gold_wt:.2f} g</p>
-                        {f"<p><strong>Surface Area:</strong> {S_area} mm³</p>"} 
-                    </div>
-                """, unsafe_allow_html=True)#if mode == "Mirror" else ""
+                # st.markdown(f"""
+                #     <div class='output-card'>
+                #         <p><strong>Total:</strong> {total} PCS</p>
+                #         <p><strong>Gold Weight:</strong> {gold_wt:.2f} g</p>
+                #         {f"<p><strong>Surface Area:</strong> {S_area} mm³</p>"} 
+                #     </div>
+                # """, unsafe_allow_html=True)#if mode == "Mirror" else ""
         
                 try:
                     count = 1  
